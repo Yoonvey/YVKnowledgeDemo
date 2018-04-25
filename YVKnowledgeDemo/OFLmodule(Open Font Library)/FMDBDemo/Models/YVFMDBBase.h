@@ -18,6 +18,7 @@
 //Instance a static dataBase
 + (instancetype)sharedDataBase;
 
+#pragma mark Creation
 /*!
  * @brief CreateDataBase
  * @param sqliteName (currentSqliteName)
@@ -27,29 +28,52 @@
 - (BOOL)createDataBaseWithSqliteName:(NSString *)sqliteName
                                 form:(id)form;
 
+#pragma mark Update
 /*!
  * @brief AppendingInsertionQueryString
  * @param tableName (a table's Name)
  * @param keyProperties (properties of a table)
- * @param value (insert info)
+ * @param insertProperties (insert properties)
  */
- NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *keyProperties, id value);
-
+ NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *insertProperties);
 /*!
- * @brief InsertDataSources
+ * @brief AppendingDeletionQueryString
+ * @param tableName (a table's Name)
+ * @param keyProperties (properties of a table)
+ * @param conditions (conditions array)
+ */
+NSString *AppendingDeletionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions);
+/*!
+ * @brief AppendingUpdateQueryString
+ * @param tableName (a table's Name)
+ * @param keyProperties (properties of a table)
+ * @param conditions (conditions array)
+ */
+NSString *AppendingUpdateQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions);
+/*!
+ * @brief UpdateInfo
  * @param queryString (insert sqlQuery, please use)
  * @param ... (nonquantitative parameters, please insert value with dataSources index)
- * @@return insertResult
+ * @return deleteResult
  */
-- (BOOL)insertDataSources:(NSString *)queryString,...;
+- (BOOL)updateDataBaseInfoWithQueryString:(NSString *)queryString,...;
 
+#pragma mark Selection
+/*!
+ * @brief AppendingInsertionQueryString
+ * @param tableName (a table's Name)
+ * @param keyProperties (properties of a table)
+ * @param conditions (conditions array)
+ */
+NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions);
 /*!
  * @brief selectedInfo
- * @param condition (selectedConditionList, if condition is nil ,it will select all)
- * @param objName (insert a name and it will used for creation list, if don't nedd, set it nil)
+ * @param objName (insert a name and it will used for creation list, if don't need, set it nil)
+ * @param queryString (insert sqlQuery, please use)
+ * @param ... (nonquantitative parameters, please insert value with dataSources index)
  * @return results
  */
-- (NSMutableArray *)selectedInfoWithCondition:(NSDictionary *)condition
-                                   objectName:(NSString *)objName;
+- (NSMutableArray *)selectedInfoWithObjectName:(NSString *)objName
+                                   queryString:(NSString *)queryString,...;
 
 @end

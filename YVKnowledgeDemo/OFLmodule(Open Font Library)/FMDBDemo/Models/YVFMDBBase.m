@@ -100,39 +100,12 @@ BOOL CheckIsExistProperties(id instance, NSString *verifyPropertyName)
     return NO;
 }
 
-#pragma mark temp
-void invokeSelector(id object, SEL selector, NSArray *arguments)
-{
-    NSMethodSignature *signature = [object methodSignatureForSelector:selector];
-    
-    if (signature.numberOfArguments == 0)
-    {
-        return; //@selector未找到
-    }
-    
-    if (signature.numberOfArguments > [arguments count]+2)
-    {
-        return; //传入arguments参数不足。signature至少有两个参数，self和_cmd
-    }
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    [invocation setTarget:object];
-    [invocation setSelector:selector];
-    
-    for(int i=0; i<[arguments count]; i++)
-    {
-        id arg = [arguments objectAtIndex:i];
-        [invocation setArgument:&arg atIndex:i+2]; // The first two arguments are the hidden arguments self and _cmd
-    }
-    
-    [invocation invoke]; // Invoke the selector
-}
-
 //CreationQuery
 NSString *AppendingCreationQueryString(id form, id class, NSString *tableName, NSMutableArray *keyProperties)
 {
     NSMutableArray *newKeyProperties = [NSMutableArray arrayWithArray:keyProperties];
     NSString *queryString = [NSString stringWithFormat:@"create table if not exists %@ (id integer primary key autoincrement,", tableName];
+    [newKeyProperties addObject:@"id"];
     if([form isKindOfClass:[NSArray class]])
     {
         for (id obj in form)
@@ -186,24 +159,38 @@ NSString *AppendingCreationQueryString(id form, id class, NSString *tableName, N
 }
 
 //InsertionQuery
-NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *keyProperties, id value)
+NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *insertProperties)
 {
     NSString *queryString = [NSString stringWithFormat:@"insert into %@ (", tableName];//Get table
     //Insert keys
     for (NSString *keyProperty in keyProperties)
     {
-        queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" %@,", keyProperty]];
+        if (![keyProperty isEqualToString:@"id"])
+        {
+            for (NSString *property in insertProperties)
+            {
+                if ([keyProperty isEqualToString:property])
+                {
+                    queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" %@,", keyProperty]];
+                }
+            }
+        }
     }
     queryString = [queryString substringWithRange:NSMakeRange(0, queryString.length-1)];//Delete ','
     queryString = [queryString stringByAppendingString:@") values("];
     
     for (NSString *keyProperty in keyProperties)
     {
-        if(keyProperty)
+        if(![keyProperty isEqualToString:@"id"])
         {
-            
+            for (NSString *property in insertProperties)
+            {
+                if ([keyProperty isEqualToString:property])
+                {
+                    queryString = [queryString stringByAppendingString:@" ?,"];
+                }
+            }
         }
-        queryString = [queryString stringByAppendingString:@" ?,"];
     }
     queryString = [queryString substringWithRange:NSMakeRange(0, queryString.length-1)];//Delete ','
     queryString = [queryString stringByAppendingString:@")"];
@@ -212,9 +199,47 @@ NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *key
 }
 
 //SelectionQuery
-NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSDictionary *condition)
+NSString *AppendingDeletionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions)
 {
-    if (!condition || [condition isEqual:[NSNull null]])
+    if (!conditions || [conditions isEqual:[NSNull null]])
+    {
+        return [NSString stringWithFormat:@"delete * from %@", tableName];
+    }
+    else
+    {
+        NSString *queryString = [NSString stringWithFormat:@"delete from %@ where", tableName];
+        
+        //Insert conditions
+        if ([conditions isKindOfClass:[NSArray class]])
+        {
+            BOOL isInsert = NO;
+            for (NSString *keyProperty in conditions)
+            {
+                queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" %@ = ? and", keyProperty]];
+                isInsert = YES;
+            }
+            if (isInsert)
+            {
+                queryString = [queryString substringWithRange:NSMakeRange(0, queryString.length-3)];//Delete 'and'
+            }
+        }
+        else
+        {
+            NSLog(@"condition is not a dictionary class object!");
+        }
+        return queryString;
+    }
+}
+
+//NSString *AppendingUpdateQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions)
+//{
+//    
+//}
+
+//SelectionQuery
+NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions)
+{
+    if (!conditions || [conditions isEqual:[NSNull null]])
     {
         return [NSString stringWithFormat:@"select * from %@", tableName];
     }
@@ -230,16 +255,13 @@ NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *key
         queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" from %@ where", tableName]];
         
         //Insert conditions
-        if ([condition isKindOfClass:[NSDictionary class]])
+        if ([conditions isKindOfClass:[NSArray class]])
         {
             BOOL isInsert = NO;
-            for (NSString *keyProperty in keyProperties)
+            for (NSString *keyProperty in conditions)
             {
-                if (CheckIsExistProperties(condition, keyProperty))
-                {
-                    queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" %@ = ? and", [condition valueForKey:keyProperty]]];
-                    isInsert = YES;
-                }
+                queryString = [queryString stringByAppendingString:[NSString stringWithFormat:@" %@ = ? and", keyProperty]];
+                isInsert = YES;
             }
             if (isInsert)
             {
@@ -271,12 +293,12 @@ NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *key
     return NO;
 }
 
-//Insert DataSources
-- (BOOL)insertDataSources:(NSString *)queryString,...
+//Update DataSources
+- (BOOL)updateDataBaseInfoWithQueryString:(NSString *)queryString,...
 {
     if (!queryString || [queryString isEqual:[NSNull null]])
     {
-        NSLog(@"dataSources is null!");
+        NSLog(@"queryString is null!");
         return NO;
     }
     else
@@ -292,33 +314,15 @@ NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *key
         return YES;
     }
 }
-//- (BOOL)insertDataSources:(id)dataSources,...
-//{
-//    if (!dataSources || [dataSources isEqual:[NSNull null]])
-//    {
-//        NSLog(@"dataSources is null!");
-//        return NO;
-//    }
-//    else
-//    {
-//        if ([_dataBase open])
-//        {
-//            NSString *queryString = AppendingInsertionQueryString(self.tableName, self.keyProperties, dataSources);
-//            va_list args;
-//            va_start(args, queryString);
-//            BOOL flag = [_dataBase executeUpdate:queryString withVAList:args];
-//            va_end(args);
-//            return flag;
-//        }
-//        return YES;
-//    }
-//}
 
 //Selected specified info
-- (NSMutableArray *)selectedInfoWithCondition:(NSDictionary *)condition objectName:(NSString *)objName
+- (NSMutableArray *)selectedInfoWithObjectName:(NSString *)objName queryString:(NSString *)queryString,...
 {
     NSMutableArray *results = [NSMutableArray array];
-    FMResultSet *resultSet = [_dataBase executeQuery:AppendingSelectionQueryString(self.tableName, self.keyProperties, condition)];
+    va_list args;
+    va_start(args, queryString);
+    FMResultSet *resultSet = [_dataBase executeQuery:queryString withVAList:args];
+    va_end(args);
     if ([_dataBase open])
     {
         while ([resultSet next])
@@ -328,13 +332,10 @@ NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *key
             if (!objClass)
             {
                 objClass = [NSMutableDictionary dictionary];
-                if (!condition)
+                for (NSString *property in self.keyProperties)
                 {
-                    for (NSString *property in self.keyProperties)
-                    {
-                        NSString *resultString = [resultSet stringForColumn:property];
-                        [objClass setValue:resultString forKey:property];
-                    }
+                    NSString *resultString = [resultSet stringForColumn:property];
+                    [objClass setValue:resultString forKey:property];
                 }
             }
             else

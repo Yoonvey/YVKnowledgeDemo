@@ -12,6 +12,11 @@
 
 @interface YVFMDBMCenterViewController ()
 
+@property (nonatomic) NSInteger insertTag;
+
+@property (nonatomic, strong) NSArray *defaultSubIds;
+@property (nonatomic, strong) NSArray *defaultNames;
+
 @end
 
 @implementation YVFMDBMCenterViewController
@@ -46,6 +51,9 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = KColor(240, 240, 240);
+    self.insertTag = 0;
+    self.defaultSubIds = [NSArray arrayWithObjects:@"1X",@"2X",@"3X",@"4X",@"5X", nil];
+    self.defaultNames = [NSArray arrayWithObjects:@"1X喵",@"2X喵",@"3X喵",@"4X喵",@"5X喵", nil];
     [self setupCreationButton];
 }
 
@@ -73,9 +81,17 @@
     [insertBtn addTarget:self action:@selector(clickResponseOfInsertDataSource) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:insertBtn];
     
+    UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    deleteBtn.frame =CGRectMake((ScreenWidth-100)*0.5, ScreenHeight*0.5+35, 100, 50);
+    deleteBtn.layer.backgroundColor = KColor(220, 20, 60).CGColor;
+    deleteBtn.layer.cornerRadius = 4.0;
+    [deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [deleteBtn addTarget:self action:@selector(clickResponseOfDeletedDataBase) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:deleteBtn];
+    
     UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    selectBtn.frame =CGRectMake((ScreenWidth-100)*0.5, ScreenHeight*0.5+35, 100, 50);
-    selectBtn.layer.backgroundColor = KColor(47,79,79).CGColor;
+    selectBtn.frame =CGRectMake((ScreenWidth-100)*0.5, ScreenHeight*0.5+95, 100, 50);
+    selectBtn.layer.backgroundColor = KColor(47, 79, 79).CGColor;
     selectBtn.layer.cornerRadius = 4.0;
     [selectBtn setTitle:@"查询" forState:UIControlStateNormal];
     [selectBtn addTarget:self action:@selector(clickResponseOfSelectedDataBase) forControlEvents:UIControlEventTouchUpInside];
@@ -95,16 +111,39 @@
 
 - (void)clickResponseOfInsertDataSource
 {
-    NSMutableDictionary *form = [NSMutableDictionary dictionary];
-    [form setValue:@"1x" forKey:@"subId"];
-    [form setValue:@"你喵" forKey:@"name"];
-    BOOL flag = [[YVFMDBBase sharedDataBase] insertDataSources:AppendingInsertionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, form), @"1x", @"你喵"];
+    if (self.insertTag < 4 && self.insertTag >= 0)
+    {
+        self.insertTag ++;
+    }
+    else
+    {
+        self.insertTag = 0;
+    }
+    
+    NSString *subId = self.defaultNames[self.insertTag];
+    NSString *name = self.defaultNames[self.insertTag];
+    
+    NSMutableArray *insertProperties = [NSMutableArray arrayWithObjects:@"subId", @"name", nil];
+
+    BOOL flag = [[YVFMDBBase sharedDataBase] updateDataBaseInfoWithQueryString:AppendingInsertionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, insertProperties), subId, name];
     NSLog(@"insert_flag>%i", flag);
+}
+
+- (void)clickResponseOfDeletedDataBase
+{
+    NSString *name = self.defaultNames[self.insertTag];
+    NSMutableArray *conditions = [NSMutableArray array];
+    [conditions addObject:@"name"];
+    BOOL flag = [[YVFMDBBase sharedDataBase] updateDataBaseInfoWithQueryString:AppendingDeletionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, conditions), name];
+    NSLog(@"delete_result>%i", flag);
 }
 
 - (void)clickResponseOfSelectedDataBase
 {
-    NSMutableArray *results = [[YVFMDBBase sharedDataBase] selectedInfoWithCondition:nil objectName:nil];
+    NSString *name = self.defaultNames[self.insertTag];
+    NSMutableArray *conditions = [NSMutableArray array];
+    [conditions addObject:@"name"];
+    NSMutableArray *results = [[YVFMDBBase sharedDataBase] selectedInfoWithObjectName:nil queryString:AppendingSelectionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, nil), nil];
     NSLog(@"select_results>%@", results);
 }
 
