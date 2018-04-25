@@ -28,13 +28,20 @@
                                 form:(id)form;
 
 /*!
+ * @brief AppendingInsertionQueryString
+ * @param tableName (a table's Name)
+ * @param keyProperties (properties of a table)
+ * @param value (insert info)
+ */
+ NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *keyProperties, id value);
+
+/*!
  * @brief InsertDataSources
  * @param queryString (insert sqlQuery, please use)
  * @param ... (nonquantitative parameters, please insert value with dataSources index)
  * @@return insertResult
  */
 - (BOOL)insertDataSources:(NSString *)queryString,...;
-NSString *AppendingInsertionQueryString(NSString *tableName, NSMutableArray *keyProperties, id value);
 
 /*!
  * @brief selectedInfo
