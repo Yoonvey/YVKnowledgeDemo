@@ -40,6 +40,7 @@
 		18C99222207DDC93008BA68A /* YVDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C99221207DDC93008BA68A /* YVDrawerView.m */; };
 		18C99225207DDD3B008BA68A /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C99224207DDD3B008BA68A /* UIView+Frame.m */; };
 		18C99228207DE254008BA68A /* YVDrawerUsingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C99227207DE254008BA68A /* YVDrawerUsingView.m */; };
+		3844C11120916540001B2843 /* YVAFNNetServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844C11020916540001B2843 /* YVAFNNetServer.m */; };
 		389B4BC7208DB051006DA17B /* YVFMDBMCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B4BC6208DB051006DA17B /* YVFMDBMCenterViewController.m */; };
 		389B4BCA208DB09F006DA17B /* YVAFNetworkingCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B4BC9208DB09F006DA17B /* YVAFNetworkingCenterViewController.m */; };
 		389B4BCD208DC7DD006DA17B /* YVFMDBBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B4BCC208DC7DD006DA17B /* YVFMDBBase.m */; };
@@ -128,6 +129,8 @@
 		18C99224207DDD3B008BA68A /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		18C99226207DE254008BA68A /* YVDrawerUsingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVDrawerUsingView.h; sourceTree = "<group>"; };
 		18C99227207DE254008BA68A /* YVDrawerUsingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVDrawerUsingView.m; sourceTree = "<group>"; };
+		3844C10F20916540001B2843 /* YVAFNNetServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVAFNNetServer.h; sourceTree = "<group>"; };
+		3844C11020916540001B2843 /* YVAFNNetServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVAFNNetServer.m; sourceTree = "<group>"; };
 		389B4BC5208DB051006DA17B /* YVFMDBMCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVFMDBMCenterViewController.h; sourceTree = "<group>"; };
 		389B4BC6208DB051006DA17B /* YVFMDBMCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVFMDBMCenterViewController.m; sourceTree = "<group>"; };
 		389B4BC8208DB09F006DA17B /* YVAFNetworkingCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVAFNetworkingCenterViewController.h; sourceTree = "<group>"; };
@@ -367,9 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				18C99203207DD42F008BA68A /* Controllers */,
-				18C99208207DD42F008BA68A /* Models */,
 				18C99209207DD42F008BA68A /* Servers */,
-				18C9920C207DD42F008BA68A /* Views */,
 			);
 			path = NSURLSessionDemo;
 			sourceTree = "<group>";
@@ -385,13 +386,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		18C99208207DD42F008BA68A /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		18C99209207DD42F008BA68A /* Servers */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,13 +393,6 @@
 				18C9920B207DD42F008BA68A /* YVURLSessionServer.m */,
 			);
 			path = Servers;
-			sourceTree = "<group>";
-		};
-		18C9920C207DD42F008BA68A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		18C99219207DD53A008BA68A /* ViewDemo */ = {
@@ -445,6 +432,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		3844C10E209164C2001B2843 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				3844C10F20916540001B2843 /* YVAFNNetServer.h */,
+				3844C11020916540001B2843 /* YVAFNNetServer.m */,
+			);
+			path = Server;
+			sourceTree = "<group>";
+		};
 		389B4BBC208DAF5D006DA17B /* OFLmodule(Open Font Library) */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,18 +453,10 @@
 		389B4BBD208DAF5D006DA17B /* AFNetworkingDemo */ = {
 			isa = PBXGroup;
 			children = (
+				3844C10E209164C2001B2843 /* Server */,
 				389B4BBF208DAF5D006DA17B /* Controllers */,
-				389B4BBE208DAF5D006DA17B /* Models */,
-				389B4BC0208DAF5D006DA17B /* Views */,
 			);
 			path = AFNetworkingDemo;
-			sourceTree = "<group>";
-		};
-		389B4BBE208DAF5D006DA17B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		389B4BBF208DAF5D006DA17B /* Controllers */ = {
@@ -478,13 +466,6 @@
 				389B4BC9208DB09F006DA17B /* YVAFNetworkingCenterViewController.m */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		389B4BC0208DAF5D006DA17B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		389B4BC1208DAF5D006DA17B /* FMDBDemo */ = {
@@ -714,6 +695,7 @@
 				18C99218207DD42F008BA68A /* YVURLSessionServer.m in Sources */,
 				18C9921F207DD5D3008BA68A /* YVDrawerViewController.m in Sources */,
 				18C9920D207DD42F008BA68A /* YVDelegatesExtensionViewController.m in Sources */,
+				3844C11120916540001B2843 /* YVAFNNetServer.m in Sources */,
 				18C99214207DD42F008BA68A /* YVPersonModel.m in Sources */,
 				18C99213207DD42F008BA68A /* YVCodingApplicationViewController.m in Sources */,
 				389B4BCA208DB09F006DA17B /* YVAFNetworkingCenterViewController.m in Sources */,

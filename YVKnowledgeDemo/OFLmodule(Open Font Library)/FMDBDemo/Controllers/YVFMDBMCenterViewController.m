@@ -123,7 +123,9 @@
     NSString *subId = self.defaultNames[self.insertTag];
     NSString *name = self.defaultNames[self.insertTag];
     
-    NSMutableArray *insertProperties = [NSMutableArray arrayWithObjects:@"subId", @"name", nil];
+    NSMutableArray *insertProperties = [NSMutableArray array];
+    [insertProperties addObject:@"subId"];
+    [insertProperties addObject:@"name"];
 
     BOOL flag = [[YVFMDBBase sharedDataBase] updateDataBaseInfoWithQueryString:AppendingInsertionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, insertProperties), subId, name];
     NSLog(@"insert_flag>%i", flag);
@@ -134,7 +136,8 @@
     NSString *name = self.defaultNames[self.insertTag];
     NSMutableArray *conditions = [NSMutableArray array];
     [conditions addObject:@"name"];
-    BOOL flag = [[YVFMDBBase sharedDataBase] updateDataBaseInfoWithQueryString:AppendingDeletionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, conditions), name];
+//    BOOL flag = [[YVFMDBBase sharedDataBase] updateDataBaseInfoWithQueryString:AppendingDeletionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, conditions), name];
+    BOOL flag = [[YVFMDBBase sharedDataBase] updateDataBaseInfoWithQueryString:AppendingDeletionQueryString([YVFMDBBase sharedDataBase].tableName, [YVFMDBBase sharedDataBase].keyProperties, nil), nil];
     NSLog(@"delete_result>%i", flag);
 }
 

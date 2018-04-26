@@ -100,9 +100,35 @@ BOOL CheckIsExistProperties(id instance, NSString *verifyPropertyName)
     return NO;
 }
 
+//CheckIsTableExist
+BOOL CheckIsTableExist(FMDatabase *db,NSString * tableName)
+
+{
+    FMResultSet *result = [db executeQuery:@"select count(*) as 'count' from sqlite_master where type ='table' and name = ?", tableName];
+    while ([result next])
+    {
+        // just print out what we've got in a number of formats.
+        NSInteger count = [result intForColumn:@"count"];
+        NSLog(@"isTableOK %li", count);
+        if (0 == count)
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 //CreationQuery
 NSString *AppendingCreationQueryString(id form, id class, NSString *tableName, NSMutableArray *keyProperties)
 {
+    if (keyProperties.count != 0)//Remove old keyProperties
+    {
+        [keyProperties removeAllObjects];
+    }
     NSMutableArray *newKeyProperties = [NSMutableArray arrayWithArray:keyProperties];
     NSString *queryString = [NSString stringWithFormat:@"create table if not exists %@ (id integer primary key autoincrement,", tableName];
     [newKeyProperties addObject:@"id"];
@@ -203,7 +229,7 @@ NSString *AppendingDeletionQueryString(NSString *tableName, NSMutableArray *keyP
 {
     if (!conditions || [conditions isEqual:[NSNull null]])
     {
-        return [NSString stringWithFormat:@"delete * from %@", tableName];
+        return [NSString stringWithFormat:@"delete from %@", tableName];//Delete all
     }
     else
     {
@@ -230,11 +256,6 @@ NSString *AppendingDeletionQueryString(NSString *tableName, NSMutableArray *keyP
         return queryString;
     }
 }
-
-//NSString *AppendingUpdateQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions)
-//{
-//    
-//}
 
 //SelectionQuery
 NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *keyProperties, NSMutableArray *conditions)
@@ -311,7 +332,10 @@ NSString *AppendingSelectionQueryString(NSString *tableName, NSMutableArray *key
             va_end(args);
             return flag;
         }
-        return YES;
+        else
+        {
+           return NO;
+        }
     }
 }
 

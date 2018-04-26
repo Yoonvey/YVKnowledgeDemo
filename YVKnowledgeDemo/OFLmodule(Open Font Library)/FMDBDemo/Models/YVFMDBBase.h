@@ -18,7 +18,7 @@
 //Instance a static dataBase
 + (instancetype)sharedDataBase;
 
-#pragma mark Creation
+#pragma mark - Creation
 /*!
  * @brief CreateDataBase
  * @param sqliteName (currentSqliteName)
@@ -28,7 +28,7 @@
 - (BOOL)createDataBaseWithSqliteName:(NSString *)sqliteName
                                 form:(id)form;
 
-#pragma mark Update
+#pragma mark - Update
 /*!
  * @brief AppendingInsertionQueryString
  * @param tableName (a table's Name)
@@ -58,7 +58,7 @@ NSString *AppendingUpdateQueryString(NSString *tableName, NSMutableArray *keyPro
  */
 - (BOOL)updateDataBaseInfoWithQueryString:(NSString *)queryString,...;
 
-#pragma mark Selection
+#pragma mark - Selection
 /*!
  * @brief AppendingInsertionQueryString
  * @param tableName (a table's Name)

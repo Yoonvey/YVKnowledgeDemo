@@ -11,6 +11,34 @@
 @interface YVObserverManager : NSObject
 
 /*!
+ * @brief 把格式化的JSON格式的二进制数据转换成字符串
+ * @param object JSON格式的二进制数据
+ * @return 返回字符串
+ */
+NSString *DataToJsonString(id object);
+
+/*!
+ * @brief 把格式化的JSON格式的字符串转换成字典
+ * @param jsonString JSON格式的字符串
+ * @return 返回字典
+ */
+NSDictionary *dictionaryWithJsonString(NSString *jsonString);
+
+/*!
+ * @brief 把格式化的JSON格式的字符串转换成数组
+ * @param jsonString JSON格式的字符串
+ * @return 返回数组
+ */
+NSArray *arrayWithJsonString(NSString *jsonString);
+
+/*!
+ * @breif 将数据模型还原成字典
+ * @param obj 数据模型对象
+ * @return 字典对象
+ */
+NSDictionary *getObjectData(id obj);
+
+/*!
  * @brief push跳转
  * @param viewControl 跳转发起类
  * @param className 跳转目标类名称

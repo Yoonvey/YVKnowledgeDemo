@@ -1030,7 +1030,6 @@ static int FMDBDatabaseBusyHandler(void *f, int count) {
             }
             else if (args) {
                 obj = va_arg(args, id);
-                
             }
             else {
                 //We ran out of arguments
