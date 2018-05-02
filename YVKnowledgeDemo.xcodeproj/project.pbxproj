@@ -45,6 +45,8 @@
 		389B4BCA208DB09F006DA17B /* YVAFNetworkingCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B4BC9208DB09F006DA17B /* YVAFNetworkingCenterViewController.m */; };
 		389B4BCD208DC7DD006DA17B /* YVFMDBBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 389B4BCC208DC7DD006DA17B /* YVFMDBBase.m */; };
 		389B4BCF208DCAFA006DA17B /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 389B4BCE208DCAFA006DA17B /* libsqlite3.0.tbd */; };
+		38D2D5CF209451BF00A4AAF9 /* YVGCDUsingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D2D5CE209451BF00A4AAF9 /* YVGCDUsingViewController.m */; };
+		38D2D5D32094535100A4AAF9 /* YVGCDServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D2D5D22094535100A4AAF9 /* YVGCDServer.m */; };
 		48FB89485D61BE8037DC4F74 /* Pods_YVKnowledgeDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B24122AE98F36DD1B93E32 /* Pods_YVKnowledgeDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +140,10 @@
 		389B4BCB208DC7DD006DA17B /* YVFMDBBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVFMDBBase.h; sourceTree = "<group>"; };
 		389B4BCC208DC7DD006DA17B /* YVFMDBBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVFMDBBase.m; sourceTree = "<group>"; };
 		389B4BCE208DCAFA006DA17B /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		38D2D5CD209451BF00A4AAF9 /* YVGCDUsingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVGCDUsingViewController.h; sourceTree = "<group>"; };
+		38D2D5CE209451BF00A4AAF9 /* YVGCDUsingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVGCDUsingViewController.m; sourceTree = "<group>"; };
+		38D2D5D12094535100A4AAF9 /* YVGCDServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVGCDServer.h; sourceTree = "<group>"; };
+		38D2D5D22094535100A4AAF9 /* YVGCDServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVGCDServer.m; sourceTree = "<group>"; };
 		435EB23826C6BCA911259524 /* Pods-YVKnowledgeDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YVKnowledgeDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YVKnowledgeDemo/Pods-YVKnowledgeDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		6F7DB79EB241C6908548A1BD /* Pods-YVKnowledgeDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YVKnowledgeDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-YVKnowledgeDemo/Pods-YVKnowledgeDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D1B24122AE98F36DD1B93E32 /* Pods_YVKnowledgeDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YVKnowledgeDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,6 +277,7 @@
 		18C991E6207DD42F008BA68A /* UsingDemo */ = {
 			isa = PBXGroup;
 			children = (
+				38D2D5CA2094518800A4AAF9 /* GCDDemo */,
 				18C991E7207DD42F008BA68A /* DelegatesDemo */,
 				18C991F0207DD42F008BA68A /* KVODemo */,
 				18C991F9207DD42F008BA68A /* NSCodingDemo */,
@@ -495,6 +502,41 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		38D2D5CA2094518800A4AAF9 /* GCDDemo */ = {
+			isa = PBXGroup;
+			children = (
+				38D2D5D02094533E00A4AAF9 /* Server */,
+				38D2D5CB2094518800A4AAF9 /* Controllers */,
+				38D2D5CC2094518800A4AAF9 /* Views */,
+			);
+			path = GCDDemo;
+			sourceTree = "<group>";
+		};
+		38D2D5CB2094518800A4AAF9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				38D2D5CD209451BF00A4AAF9 /* YVGCDUsingViewController.h */,
+				38D2D5CE209451BF00A4AAF9 /* YVGCDUsingViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		38D2D5CC2094518800A4AAF9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		38D2D5D02094533E00A4AAF9 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				38D2D5D12094535100A4AAF9 /* YVGCDServer.h */,
+				38D2D5D22094535100A4AAF9 /* YVGCDServer.m */,
+			);
+			path = Server;
+			sourceTree = "<group>";
+		};
 		E52B2B2461FBB3BCF758B0D2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,6 +736,7 @@
 				18C99225207DDD3B008BA68A /* UIView+Frame.m in Sources */,
 				18C99218207DD42F008BA68A /* YVURLSessionServer.m in Sources */,
 				18C9921F207DD5D3008BA68A /* YVDrawerViewController.m in Sources */,
+				38D2D5D32094535100A4AAF9 /* YVGCDServer.m in Sources */,
 				18C9920D207DD42F008BA68A /* YVDelegatesExtensionViewController.m in Sources */,
 				3844C11120916540001B2843 /* YVAFNNetServer.m in Sources */,
 				18C99214207DD42F008BA68A /* YVPersonModel.m in Sources */,
@@ -715,6 +758,7 @@
 				18C991E5207DB6BF008BA68A /* YVTableHeaderView.m in Sources */,
 				18C99228207DE254008BA68A /* YVDrawerUsingView.m in Sources */,
 				189823BA2074A8ED00048A42 /* YVBaseNavigationController.m in Sources */,
+				38D2D5CF209451BF00A4AAF9 /* YVGCDUsingViewController.m in Sources */,
 				18C9920F207DD42F008BA68A /* YVDelegatesSource.m in Sources */,
 				18C99211207DD42F008BA68A /* YVKVONotificationViewController.m in Sources */,
 				18C99210207DD42F008BA68A /* YVKVODemoViewController.m in Sources */,

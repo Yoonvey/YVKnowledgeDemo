@@ -40,7 +40,8 @@
                            @"0":@"YVKVODemoViewController-KVO模式应用",
                            @"1":@"YVDelegatesMainViewController-多代理模式应用",
                            @"2":@"YVCodingApplicationViewController-归档解档应用",
-                           @"3":@"YVURLSessionListViewController-网络请求应用"
+                           @"3":@"YVURLSessionListViewController-网络请求应用",
+                           @"4":@"YVGCDUsingViewController-GCD线程应用"
                            },
                     @"1":@{
                            @"0":@"YVDrawerViewController-拖动视图",
